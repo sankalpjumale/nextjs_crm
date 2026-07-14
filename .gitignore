@@ -42,3 +42,5 @@ next-env.d.ts
 
 markdown
 crm.md
+phase.md
+/app/generated/prisma
