@@ -4,8 +4,6 @@ import { NextResponse } from "next/server";
 import z from "zod";
 
 
-
-
 const updateContactSchema = z.object({
     name:z.string().min(1).optional(),
     email:z.string().email().optional().or(z.literal("")),
@@ -17,8 +15,11 @@ const updateContactSchema = z.object({
 //update contact
 export async function PATCH(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
+
+    const {id} = await params    
+
     const { userId } = await auth()
     if (!userId) {
         return NextResponse.json(
@@ -27,7 +28,7 @@ export async function PATCH(
         )
     }
 
-    const existing = await prisma.contact.findUnique({ where: { id: params.id } })
+    const existing = await prisma.contact.findUnique({ where: { id } })
     if (!existing) {
         return NextResponse.json(
             { success: false, error: "Contact not found" },
@@ -51,11 +52,48 @@ export async function PATCH(
     }
 
     const contact = await prisma.contact.update({
-        where: { id: params.id },
+        where: { id },
         data: result.data
     })
 
     return NextResponse.json(
         {success: true, contact}
+    )
+}
+
+//delete contact
+export async function DELETE(
+    request: Request,
+    {params} : {params: Promise<{id: string}>}
+) {
+
+    const {id} = await params
+
+    const { userId } = await auth()
+    if (!userId) {
+        return NextResponse.json(
+            { success: false, error: "Not authorized" },
+            {status: 401}
+        )
+    }
+
+    const existing = await prisma.contact.findUnique({ where: { id } })
+    if (!existing) {
+        return NextResponse.json(
+            { success: false, error: "Contact not found" },
+            {status: 404}
+        )
+    }
+    if (existing.userId !== userId) {
+        return NextResponse.json(
+            { success: false, error: "Not authorized" },
+            {status: 403}
+        )
+    }
+
+    await prisma.contact.delete({ where: { id } })
+    
+    return NextResponse.json(
+        {success: true}
     )
 }
