@@ -25,3 +25,37 @@ export async function GET() {
         success: true, contacts
     })
 }
+
+//create a new contact
+export async function POST(request: Request) {
+    const { userId } = await auth()
+    if (!userId) {
+        return NextResponse.json(
+            { success: false, error: "Unauthorized" },
+            {status: 401}
+        )
+    }
+
+    const body = await request.json()
+
+    //validate input
+    const result = createContactSchema.safeParse(body)
+    if (!result.success) {
+        return NextResponse.json(
+            { success: false, error: result.error.issues[0].message },
+            {status: 400}
+        )
+    }
+
+    const contact = await prisma.contact.create({
+        data: {
+            ...result.data,
+            userId
+        }
+    })
+
+    return NextResponse.json(
+        { success: true, contact },
+        {status: 201}
+    )
+}
