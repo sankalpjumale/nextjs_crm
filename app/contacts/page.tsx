@@ -61,9 +61,9 @@ export default function ContactsPage() {
                         <thead>
                             <tr className="border-b">
                                 <th className="text-left p-2">Name</th>
-                                <th className="text-left p-2">Email</th>
-                                <th className="text-left p-2">Phone</th>
-                                <th className="text-left p-2">Company</th>
+                                <th className="text-left p-2 hidden md:table-cell">Email</th>
+                                <th className="text-left p-2 hidden lg:table-cell">Phone</th>
+                                <th className="text-left p-2 hidden md:table-cell">Company</th>
                                 <th className="text-left p-2">Status</th>
                             </tr>
                         </thead>
@@ -72,9 +72,9 @@ export default function ContactsPage() {
                             {contacts.map((contact) => (
                                 <tr key={contact.id} className="border-b">
                                     <td className="p-2">{contact.name}</td>
-                                    <td className="p-2">{contact.email}</td>
-                                    <td className="p-2">{contact.phone}</td>
-                                    <td className="p-2">{contact.company}</td>
+                                    <td className="p-2 hidden md:table-cell">{contact.email}</td>
+                                    <td className="p-2 hidden lg:table-cell">{contact.phone}</td>
+                                    <td className="p-2 hidden md:table-cell">{contact.company}</td>
                                     <td className="p-2">{contact.status}</td>
                                 </tr>
                             ))}
