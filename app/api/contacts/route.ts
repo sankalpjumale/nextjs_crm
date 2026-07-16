@@ -37,6 +37,7 @@ export async function GET() {
 //create a new contact
 export async function POST(request: Request) {
     try {
+        //authentication check
         const { userId } = await auth()
         if (!userId) {
             return NextResponse.json(
@@ -55,7 +56,21 @@ export async function POST(request: Request) {
                 {status: 400}
             )
         }
+
+        //prevent duplicate email for same user
+        if (result.data.email) {
+            const existing = await prisma.contact.findFirst({
+                where: { userId, email: result.data.email}
+            })
+            if (existing) {
+                return NextResponse.json(
+                    { success: false, error: "A contact with this email already exists" },
+                    {status: 409}
+                )
+            }
+        }
     
+        //create record
         const contact = await prisma.contact.create({
             data: {
                 ...result.data,
