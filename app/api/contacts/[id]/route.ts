@@ -86,7 +86,10 @@ export async function DELETE(
             )
         }
     
-        const existing = await prisma.contact.findUnique({ where: { id } })
+        const existing = await prisma.contact.findUnique({
+            where: { id },
+            include: {deals: true, activities: true} //fetch related record too
+        })
         if (!existing) {
             return NextResponse.json(
                 { success: false, error: "Contact not found" },
@@ -100,6 +103,13 @@ export async function DELETE(
             )
         }
     
+        //block deletion if contact has related deals
+        if (existing.deals.length > 0) {
+            return NextResponse.json(
+                {success: false, error: 'Cannot delete contactwith active deals. Delete deals first.'}
+            )
+        }
+
         await prisma.contact.delete({ where: { id } })
         
         return NextResponse.json(
