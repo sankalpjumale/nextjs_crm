@@ -2,7 +2,7 @@
 
 import { table } from "console"
 import { useEffect, useState } from "react"
-
+import ContactForm from "./ContactForm"
 
 type Contact = {
     id: string,
@@ -17,6 +17,10 @@ export default function ContactsPage() {
     const [contacts, setContacts] = useState<Contact[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+
+    function handleContactAdded(newContact: Contact) {
+        setContacts((prev) => [newContact, ...prev])
+    }
 
     useEffect(() => {
         async function loadContacts() {
@@ -46,6 +50,8 @@ export default function ContactsPage() {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">Contacts</h1>
+
+            <ContactForm onContactAdded={handleContactAdded} />
 
             {contacts.length === 0 ? (
                 <p className="text-gray-500">No contacts yet. Add your first one!</p>
