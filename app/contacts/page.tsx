@@ -3,6 +3,7 @@
 import { table } from "console"
 import { useEffect, useState } from "react"
 import ContactForm from "./ContactForm"
+import ContactSkeleton from "./ContactSkeleton"
 
 type Contact = {
     id: string,
@@ -44,7 +45,7 @@ export default function ContactsPage() {
         }
      }, [])
     
-    if (loading) return <div className="p-6">Loading contacts...</div>
+    if (loading) return <div className="p-6"><ContactSkeleton /></div>
     if (error) return <div className="p-6 text-red-600">Error: {error}</div>
 
     return (
