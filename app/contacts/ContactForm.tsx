@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button"
 import { CreateContactInput, createContactSchema } from "@/lib/validation/contact"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
@@ -91,13 +93,18 @@ export default function ContactForm({onContactAdded}: ContactFormProps) {
                 )}
             </div>
 
-            <button
+            {/* <button
                 type="submit"
                 disabled={isSubmitting}
                 className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
             >
                 { isSubmitting ? "Adding..." : "Add Contact"}
-            </button>
+            </button> */}
+
+            <Button type="submit" disabled={isSubmitting} className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50">
+                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isSubmitting ? "Adding..." : "Add Contact"}
+            </Button>
 
         </form>
     )
