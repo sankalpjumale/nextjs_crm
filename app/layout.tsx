@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <body className="min-h-full flex flex-col">
           {children}
-          <Toaster />
+          <Toaster position="top-right"/>
         </body>
       </html>
     </ClerkProvider>
