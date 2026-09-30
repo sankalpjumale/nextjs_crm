@@ -1,4 +1,4 @@
 export const siteConfig = {
-    name: "ProCRM",
-    description: "Grow Your Business"
-} as const
+  name: "ProCRM",
+  description: "Grow Your Business",
+} as const;
