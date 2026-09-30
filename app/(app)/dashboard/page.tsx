@@ -1,21 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
-import { currentUser, auth } from "@clerk/nextjs/server";
-import { Activity, DollarSign, TrendingUp, Users } from "lucide-react";
-import { redirect } from "next/navigation";
+import PageHeader from "@/components/shared/page-header";
 
 async function Dashboardpage() {
-  const { userId } = await auth();
-  if (!userId) {
-    redirect("/");
-  }
-
-  const user = await currentUser();
-
   return (
-    <div className="bg-muted/20 min-h-screen">
-      <h1>Dashboard Page</h1>
-    </div>
+    <>
+      <PageHeader
+        title="Dashboard"
+        description="An overview of CRM will live here."
+      />
+      <p className="text-sm text-muted-foreground">Coming in later version</p>
+    </>
   );
 }
 
