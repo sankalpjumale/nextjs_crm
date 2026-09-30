@@ -6,7 +6,7 @@ import {
     SheetTrigger,
     SheetTitle
 } from "@/components/ui/sheet"
-import { AppSidebar } from "@/components/shared/app-sidebar"
+import  AppSidebar  from "@/components/shared/app-sidebar"
 
 function AppHeader() {
     return (

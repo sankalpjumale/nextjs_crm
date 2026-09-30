@@ -1,5 +1,5 @@
 import AppHeader from "@/components/shared/app-header";
-import { AppSidebar } from "@/components/shared/app-sidebar";
+import  AppSidebar  from "@/components/shared/app-sidebar";
 import { ReactNode } from "react";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
