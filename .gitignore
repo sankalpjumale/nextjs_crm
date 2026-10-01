@@ -44,3 +44,5 @@ markdown
 crm.md
 phase.md
 /app/generated/prisma
+
+/lib/generated/prisma
