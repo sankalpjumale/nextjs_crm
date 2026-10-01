@@ -5,6 +5,9 @@ const serverSchema = z.object({
   NODE_ENV: z
     .enum(["development", "test", "production"])
     .default("development"),
+  //for app to fail at startup with msg instead cryptic prisma connection error when first time some one queries db
+  DATABASE_URL: z.string().url(),
+  DIRECT_URL: z.string().url()
 });
 
 //safe parse does not crash if invalid, it returns object for both success true or false
