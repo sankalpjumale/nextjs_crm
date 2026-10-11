@@ -5,21 +5,26 @@ const serverSchema = z.object({
   NODE_ENV: z
     .enum(["development", "test", "production"])
     .default("development"),
-  //for app to fail at startup with msg instead cryptic prisma connection error when first time some one queries db
-  DATABASE_URL: z.string().url(),
-  DIRECT_URL: z.string().url()
+  
+  SUPABASE_SECRET_KEY: z
+    .string()
+    .startsWith("sb_secret_", {
+      message: 'Must be a Supabase secret key (sb_secret_...)'
+    })
 });
 
 //safe parse does not crash if invalid, it returns object for both success true or false
-const parsed = serverSchema.safeParse(process.env);
+const parsed = serverSchema.safeParse({
+  NODE_env: process.env.NODE_ENV,
+  SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY
+});
 
 if (!parsed.success) {
-  console.error(
-    "Invalid server environment variables: ",
-    parsed.error.flatten().fieldErrors, //turn error into redable format
-  );
+  const problems = parsed.error.issues
+    .map((issue) => ` -${issue.path.join(".")}: ${issue.message}`)
+    .join("\n")
   //throwing stop app from starting
-  throw new Error("Invalid server environment variables");
+  throw new Error(`Invalid server environment variables:\n${problems}`);
 }
 
 //instead of using process.env directly
