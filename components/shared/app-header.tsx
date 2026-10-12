@@ -7,6 +7,7 @@ import {
     SheetTitle
 } from "@/components/ui/sheet"
 import  AppSidebar  from "@/components/shared/app-sidebar"
+import { UserButton } from "@clerk/nextjs"
 
 function AppHeader() {
     return (
@@ -25,6 +26,7 @@ function AppHeader() {
             <div className='flex-1' />
             
             {/* user account menu */}
+            <UserButton />
       </header>
   )
 }
