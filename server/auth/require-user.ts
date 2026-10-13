@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 
 
 export async function requireUserId(): Promise<string> {
-    const { userId } = await auth
+    const { userId } = await auth()
     
     if (!userId) {
         redirect(clientEnv.NEXT_PUBLIC_CLERK_SIGN_IN_URL)
