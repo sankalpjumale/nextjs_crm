@@ -205,6 +205,7 @@ export type Database = {
     }
     Functions: {
       db_health: { Args: never; Returns: string }
+      requesting_user_id: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never
