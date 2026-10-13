@@ -10,18 +10,23 @@ const serverSchema = z.object({
     .string()
     .startsWith("sb_secret_", {
       message: 'Must be a Supabase secret key (sb_secret_...)'
-    })
+    }),
+  
+  CLERK_SECRET_KEY: z
+    .string()
+    .startsWith("sk_", {message: "Must be a Clerk secret key (sk_...)"})
 });
 
 //safe parse does not crash if invalid, it returns object for both success true or false
 const parsed = serverSchema.safeParse({
   NODE_env: process.env.NODE_ENV,
-  SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY
+  SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
+  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY
 });
 
 if (!parsed.success) {
   const problems = parsed.error.issues
-    .map((issue) => ` -${issue.path.join(".")}: ${issue.message}`)
+    .map((issue) => ` -${issue.path.join(".") || "(root)"}: ${issue.message}`)
     .join("\n")
   //throwing stop app from starting
   throw new Error(`Invalid server environment variables:\n${problems}`);
