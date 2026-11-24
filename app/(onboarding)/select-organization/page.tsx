@@ -7,7 +7,7 @@ import { redirect } from "next/navigation"
 export const metadata = { title: "Select Organization" }
 
 export default async function SelectOrganizationPage() {
-    const { orgId } = await auth()
+    const { orgId } = await auth.protect()
     
     //already has an active org? nothing to choose
     if (orgId) redirect(ROUTES.dashboard)
