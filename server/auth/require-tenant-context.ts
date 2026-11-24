@@ -14,8 +14,7 @@ export type TenantContext = {
 //org id comes only from the verified session, never from client input
 
 export async function requireTenantContext(): Promise<TenantContext> {
-    const userId = await requireUserId()
-    const { orgId } = await auth()
+    const { userId, orgId } = await auth.protect()
     
     if (!orgId) {
         redirect(ROUTES.selectOrganization)
