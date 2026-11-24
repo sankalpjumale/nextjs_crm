@@ -10,8 +10,11 @@ export type TenantContext = {
     orgId: string
 }
 
-//call this at start of every server action and every tenant-scoped read
-//org id comes only from the verified session, never from client input
+/**
+ * first line of every tenant scoped page, layout, server action and read
+ * 1.auth.protect(): signed out -> redirect(page) / 401 9action
+ * 2. no active organization -> /select-organization
+ */
 
 export async function requireTenantContext(): Promise<TenantContext> {
     const { userId, orgId } = await auth.protect()
