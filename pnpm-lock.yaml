@@ -56,6 +56,9 @@ importers:
       sonner:
         specifier: ^2.0.7
         version: 2.0.8(@types/react@19.3.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      svix:
+        specifier: ^2.11.1
+        version: 2.11.1
       tailwind-merge:
         specifier: ^3.6.0
         version: 3.7.0
@@ -3160,6 +3163,10 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  svix@2.11.1:
+    resolution: {integrity: sha512-Zm8jaHK51pM9X/SN7CQ9aNc/0Egg+37wrbbhC1fpcn4EjADLZL5vkTniAAqjQIdXov3YciZSTKsa0K5ouNtnDw==}
+    engines: {node: '>=22'}
 
   systeminformation@5.33.13:
     resolution: {integrity: sha512-GtyakkchTQKymM1WeAB652zi3rM1q00RKdc+jZe9KGstuc/mWUwAnQGN/RE5gVYvHIR8xYOUIUD9irVKDtA0wA==}
@@ -6499,6 +6506,10 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  svix@2.11.1:
+    dependencies:
+      standardwebhooks: 1.1.1
 
   systeminformation@5.33.13: {}
 
