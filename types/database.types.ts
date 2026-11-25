@@ -181,6 +181,81 @@ export type Database = {
           },
         ]
       }
+      organization_memberships: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: string
+          last_event_at: string
+          organization_id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id: string
+          last_event_at: string
+          organization_id: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          last_event_at?: string
+          organization_id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_memberships_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_memberships_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: string
+          image_url: string | null
+          last_event_at: string
+          name: string
+          slug: string | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id: string
+          image_url?: string | null
+          last_event_at: string
+          name?: string
+          slug?: string | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: string
+          image_url?: string | null
+          last_event_at?: string
+          name?: string
+          slug?: string | null
+        }
+        Relationships: []
+      }
       User: {
         Row: {
           createdAt: string
@@ -199,6 +274,39 @@ export type Database = {
         }
         Relationships: []
       }
+      users: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          email: string | null
+          first_name: string | null
+          id: string
+          image_url: string | null
+          last_event_at: string
+          last_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id: string
+          image_url?: string | null
+          last_event_at: string
+          last_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          image_url?: string | null
+          last_event_at?: string
+          last_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -207,6 +315,55 @@ export type Database = {
       db_health: { Args: never; Returns: string }
       requesting_org_id: { Args: never; Returns: string }
       requesting_user_id: { Args: never; Returns: string }
+      sync_membership_delete: {
+        Args: {
+          p_event_at: string
+          p_id: string
+          p_organization_id: string
+          p_role: string
+          p_user_id: string
+        }
+        Returns: undefined
+      }
+      sync_membership_upsert: {
+        Args: {
+          p_event_at: string
+          p_id: string
+          p_organization_id: string
+          p_role: string
+          p_user_id: string
+        }
+        Returns: undefined
+      }
+      sync_organization_delete: {
+        Args: { p_event_at: string; p_id: string }
+        Returns: undefined
+      }
+      sync_organization_upsert: {
+        Args: {
+          p_event_at: string
+          p_id: string
+          p_image_url?: string
+          p_name: string
+          p_slug?: string
+        }
+        Returns: undefined
+      }
+      sync_user_delete: {
+        Args: { p_event_at: string; p_id: string }
+        Returns: undefined
+      }
+      sync_user_upsert: {
+        Args: {
+          p_email?: string
+          p_event_at: string
+          p_first_name?: string
+          p_id: string
+          p_image_url?: string
+          p_last_name?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
