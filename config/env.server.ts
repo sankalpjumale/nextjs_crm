@@ -14,14 +14,20 @@ const serverSchema = z.object({
   
   CLERK_SECRET_KEY: z
     .string()
-    .startsWith("sk_", {message: "Must be a Clerk secret key (sk_...)"})
-});
+    .startsWith("sk_", { message: "Must be a Clerk secret key (sk_...)" }),
+  
+  //signing secret of clerk webhook endpoint, used to verify that /api/webhooks/clerk requests really come from clerk
+  CLERK_WEBHOOK_SIGNING_SECRET: z.string().startsWith("whsec_", {
+    message: "Must be the Signing Secret of the Clerk webhook endpoint (whsec_...)",
+  })
+})
 
 //safe parse does not crash if invalid, it returns object for both success true or false
 const parsed = serverSchema.safeParse({
   NODE_env: process.env.NODE_ENV,
   SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
-  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY
+  CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+  CLERK_WEBHOOK_SIGNING_SECRET: process.env.CLERK_WEBHOOK_SIGNING_SECRET,
 });
 
 if (!parsed.success) {
